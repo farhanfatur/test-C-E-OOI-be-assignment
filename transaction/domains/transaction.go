@@ -11,8 +11,8 @@ const (
 
 type TransactionRequest struct {
 	Amount      int               `json:"amount"`
-	ToAddress   string            `json:"toAddress"`
-	FromAddress string            `json:"fromAddress"`
+	ToAddress   string            `json:"to_address"`
+	FromAddress string            `json:"from_address"`
 	Currency    string            `json:"currency"`
 	Status      StatusTransaction `json:"status"`
 }

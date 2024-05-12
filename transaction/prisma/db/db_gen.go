@@ -88,7 +88,6 @@ model Transaction {
     userId                Int
     amount                Int
     toAddress              String
-    fromAddress           String
     currency              String
     TransactionHistory    TransactionHistory[]
 }
@@ -253,12 +252,11 @@ const (
 type TransactionScalarFieldEnum string
 
 const (
-	TransactionScalarFieldEnumID          TransactionScalarFieldEnum = "id"
-	TransactionScalarFieldEnumUserID      TransactionScalarFieldEnum = "userId"
-	TransactionScalarFieldEnumAmount      TransactionScalarFieldEnum = "amount"
-	TransactionScalarFieldEnumToAddress   TransactionScalarFieldEnum = "toAddress"
-	TransactionScalarFieldEnumFromAddress TransactionScalarFieldEnum = "fromAddress"
-	TransactionScalarFieldEnumCurrency    TransactionScalarFieldEnum = "currency"
+	TransactionScalarFieldEnumID        TransactionScalarFieldEnum = "id"
+	TransactionScalarFieldEnumUserID    TransactionScalarFieldEnum = "userId"
+	TransactionScalarFieldEnumAmount    TransactionScalarFieldEnum = "amount"
+	TransactionScalarFieldEnumToAddress TransactionScalarFieldEnum = "toAddress"
+	TransactionScalarFieldEnumCurrency  TransactionScalarFieldEnum = "currency"
 )
 
 type TransactionHistoryScalarFieldEnum string
@@ -348,8 +346,6 @@ const transactionFieldUserID transactionPrismaFields = "userId"
 const transactionFieldAmount transactionPrismaFields = "amount"
 
 const transactionFieldToAddress transactionPrismaFields = "toAddress"
-
-const transactionFieldFromAddress transactionPrismaFields = "fromAddress"
 
 const transactionFieldCurrency transactionPrismaFields = "currency"
 
@@ -666,22 +662,20 @@ type TransactionModel struct {
 
 // InnerTransaction holds the actual data
 type InnerTransaction struct {
-	ID          int    `json:"id"`
-	UserID      int    `json:"userId"`
-	Amount      int    `json:"amount"`
-	ToAddress   string `json:"toAddress"`
-	FromAddress string `json:"fromAddress"`
-	Currency    string `json:"currency"`
+	ID        int    `json:"id"`
+	UserID    int    `json:"userId"`
+	Amount    int    `json:"amount"`
+	ToAddress string `json:"toAddress"`
+	Currency  string `json:"currency"`
 }
 
 // RawTransactionModel is a struct for Transaction when used in raw queries
 type RawTransactionModel struct {
-	ID          RawInt    `json:"id"`
-	UserID      RawInt    `json:"userId"`
-	Amount      RawInt    `json:"amount"`
-	ToAddress   RawString `json:"toAddress"`
-	FromAddress RawString `json:"fromAddress"`
-	Currency    RawString `json:"currency"`
+	ID        RawInt    `json:"id"`
+	UserID    RawInt    `json:"userId"`
+	Amount    RawInt    `json:"amount"`
+	ToAddress RawString `json:"toAddress"`
+	Currency  RawString `json:"currency"`
 }
 
 // RelationsTransaction holds the relation data separately
@@ -861,11 +855,6 @@ type transactionQuery struct {
 	//
 	// @required
 	ToAddress transactionQueryToAddressString
-
-	// FromAddress
-	//
-	// @required
-	FromAddress transactionQueryFromAddressString
 
 	// Currency
 	//
@@ -2468,353 +2457,6 @@ func (r transactionQueryToAddressString) HasSuffixIfPresent(value *string) trans
 
 func (r transactionQueryToAddressString) Field() transactionPrismaFields {
 	return transactionFieldToAddress
-}
-
-// base struct
-type transactionQueryFromAddressString struct{}
-
-// Set the required value of FromAddress
-func (r transactionQueryFromAddressString) Set(value string) transactionWithPrismaFromAddressSetParam {
-
-	return transactionWithPrismaFromAddressSetParam{
-		data: builder.Field{
-			Name:  "fromAddress",
-			Value: value,
-		},
-	}
-
-}
-
-// Set the optional value of FromAddress dynamically
-func (r transactionQueryFromAddressString) SetIfPresent(value *String) transactionWithPrismaFromAddressSetParam {
-	if value == nil {
-		return transactionWithPrismaFromAddressSetParam{}
-	}
-
-	return r.Set(*value)
-}
-
-func (r transactionQueryFromAddressString) Equals(value string) transactionWithPrismaFromAddressEqualsParam {
-
-	return transactionWithPrismaFromAddressEqualsParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "equals",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) EqualsIfPresent(value *string) transactionWithPrismaFromAddressEqualsParam {
-	if value == nil {
-		return transactionWithPrismaFromAddressEqualsParam{}
-	}
-	return r.Equals(*value)
-}
-
-func (r transactionQueryFromAddressString) Order(direction SortOrder) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name:  "fromAddress",
-			Value: direction,
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) Cursor(cursor string) transactionCursorParam {
-	return transactionCursorParam{
-		data: builder.Field{
-			Name:  "fromAddress",
-			Value: cursor,
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) In(value []string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "in",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) InIfPresent(value []string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.In(value)
-}
-
-func (r transactionQueryFromAddressString) NotIn(value []string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "notIn",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) NotInIfPresent(value []string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.NotIn(value)
-}
-
-func (r transactionQueryFromAddressString) Lt(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "lt",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) LtIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.Lt(*value)
-}
-
-func (r transactionQueryFromAddressString) Lte(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "lte",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) LteIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.Lte(*value)
-}
-
-func (r transactionQueryFromAddressString) Gt(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "gt",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) GtIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.Gt(*value)
-}
-
-func (r transactionQueryFromAddressString) Gte(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "gte",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) GteIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.Gte(*value)
-}
-
-func (r transactionQueryFromAddressString) Contains(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "contains",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) ContainsIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.Contains(*value)
-}
-
-func (r transactionQueryFromAddressString) StartsWith(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "startsWith",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) StartsWithIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.StartsWith(*value)
-}
-
-func (r transactionQueryFromAddressString) EndsWith(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "endsWith",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) EndsWithIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.EndsWith(*value)
-}
-
-func (r transactionQueryFromAddressString) Mode(value QueryMode) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "mode",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) ModeIfPresent(value *QueryMode) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.Mode(*value)
-}
-
-func (r transactionQueryFromAddressString) Not(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "not",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-func (r transactionQueryFromAddressString) NotIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.Not(*value)
-}
-
-// deprecated: Use StartsWith instead.
-
-func (r transactionQueryFromAddressString) HasPrefix(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "starts_with",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-// deprecated: Use StartsWithIfPresent instead.
-func (r transactionQueryFromAddressString) HasPrefixIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.HasPrefix(*value)
-}
-
-// deprecated: Use EndsWith instead.
-
-func (r transactionQueryFromAddressString) HasSuffix(value string) transactionDefaultParam {
-	return transactionDefaultParam{
-		data: builder.Field{
-			Name: "fromAddress",
-			Fields: []builder.Field{
-				{
-					Name:  "ends_with",
-					Value: value,
-				},
-			},
-		},
-	}
-}
-
-// deprecated: Use EndsWithIfPresent instead.
-func (r transactionQueryFromAddressString) HasSuffixIfPresent(value *string) transactionDefaultParam {
-	if value == nil {
-		return transactionDefaultParam{}
-	}
-	return r.HasSuffix(*value)
-}
-
-func (r transactionQueryFromAddressString) Field() transactionPrismaFields {
-	return transactionFieldFromAddress
 }
 
 // base struct
@@ -9401,7 +9043,6 @@ var transactionOutput = []builder.Output{
 	{Name: "userId"},
 	{Name: "amount"},
 	{Name: "toAddress"},
-	{Name: "fromAddress"},
 	{Name: "currency"},
 }
 
@@ -9880,84 +9521,6 @@ func (p transactionWithPrismaToAddressEqualsUniqueParam) toAddressField()   {}
 
 func (transactionWithPrismaToAddressEqualsUniqueParam) unique() {}
 func (transactionWithPrismaToAddressEqualsUniqueParam) equals() {}
-
-type TransactionWithPrismaFromAddressEqualsSetParam interface {
-	field() builder.Field
-	getQuery() builder.Query
-	equals()
-	transactionModel()
-	fromAddressField()
-}
-
-type TransactionWithPrismaFromAddressSetParam interface {
-	field() builder.Field
-	getQuery() builder.Query
-	transactionModel()
-	fromAddressField()
-}
-
-type transactionWithPrismaFromAddressSetParam struct {
-	data  builder.Field
-	query builder.Query
-}
-
-func (p transactionWithPrismaFromAddressSetParam) field() builder.Field {
-	return p.data
-}
-
-func (p transactionWithPrismaFromAddressSetParam) getQuery() builder.Query {
-	return p.query
-}
-
-func (p transactionWithPrismaFromAddressSetParam) transactionModel() {}
-
-func (p transactionWithPrismaFromAddressSetParam) fromAddressField() {}
-
-type TransactionWithPrismaFromAddressWhereParam interface {
-	field() builder.Field
-	getQuery() builder.Query
-	transactionModel()
-	fromAddressField()
-}
-
-type transactionWithPrismaFromAddressEqualsParam struct {
-	data  builder.Field
-	query builder.Query
-}
-
-func (p transactionWithPrismaFromAddressEqualsParam) field() builder.Field {
-	return p.data
-}
-
-func (p transactionWithPrismaFromAddressEqualsParam) getQuery() builder.Query {
-	return p.query
-}
-
-func (p transactionWithPrismaFromAddressEqualsParam) transactionModel() {}
-
-func (p transactionWithPrismaFromAddressEqualsParam) fromAddressField() {}
-
-func (transactionWithPrismaFromAddressSetParam) settable()  {}
-func (transactionWithPrismaFromAddressEqualsParam) equals() {}
-
-type transactionWithPrismaFromAddressEqualsUniqueParam struct {
-	data  builder.Field
-	query builder.Query
-}
-
-func (p transactionWithPrismaFromAddressEqualsUniqueParam) field() builder.Field {
-	return p.data
-}
-
-func (p transactionWithPrismaFromAddressEqualsUniqueParam) getQuery() builder.Query {
-	return p.query
-}
-
-func (p transactionWithPrismaFromAddressEqualsUniqueParam) transactionModel() {}
-func (p transactionWithPrismaFromAddressEqualsUniqueParam) fromAddressField() {}
-
-func (transactionWithPrismaFromAddressEqualsUniqueParam) unique() {}
-func (transactionWithPrismaFromAddressEqualsUniqueParam) equals() {}
 
 type TransactionWithPrismaCurrencyEqualsSetParam interface {
 	field() builder.Field
@@ -12227,7 +11790,6 @@ func (r transactionActions) CreateOne(
 	_userID TransactionWithPrismaUserIDSetParam,
 	_amount TransactionWithPrismaAmountSetParam,
 	_toAddress TransactionWithPrismaToAddressSetParam,
-	_fromAddress TransactionWithPrismaFromAddressSetParam,
 	_currency TransactionWithPrismaCurrencySetParam,
 
 	optional ...TransactionSetParam,
@@ -12246,7 +11808,6 @@ func (r transactionActions) CreateOne(
 	fields = append(fields, _userID.field())
 	fields = append(fields, _amount.field())
 	fields = append(fields, _toAddress.field())
-	fields = append(fields, _fromAddress.field())
 	fields = append(fields, _currency.field())
 
 	for _, q := range optional {
@@ -19441,7 +19002,6 @@ func (r transactionUpsertOne) Create(
 	_userID TransactionWithPrismaUserIDSetParam,
 	_amount TransactionWithPrismaAmountSetParam,
 	_toAddress TransactionWithPrismaToAddressSetParam,
-	_fromAddress TransactionWithPrismaFromAddressSetParam,
 	_currency TransactionWithPrismaCurrencySetParam,
 
 	optional ...TransactionSetParam,
@@ -19453,7 +19013,6 @@ func (r transactionUpsertOne) Create(
 	fields = append(fields, _userID.field())
 	fields = append(fields, _amount.field())
 	fields = append(fields, _toAddress.field())
-	fields = append(fields, _fromAddress.field())
 	fields = append(fields, _currency.field())
 
 	for _, q := range optional {

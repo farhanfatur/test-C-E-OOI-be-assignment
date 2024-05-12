@@ -22,7 +22,6 @@ func (t *TransactionRepository) Send(data domains.TransactionRequest) error {
 	findTransaction, _ := t.db.Transaction.FindFirst(
 		db.Transaction.Amount.Equals(data.Amount),
 		db.Transaction.ToAddress.Equals(data.ToAddress),
-		db.Transaction.FromAddress.Equals(data.FromAddress),
 		db.Transaction.Currency.Equals(data.Currency),
 	).Exec(ctx)
 
@@ -30,10 +29,11 @@ func (t *TransactionRepository) Send(data domains.TransactionRequest) error {
 		insertTransaction, _ := t.db.Transaction.CreateOne(
 			db.Transaction.Amount.Set(data.Amount),
 			db.Transaction.ToAddress.Set(data.ToAddress),
-			db.Transaction.FromAddress.Set(data.FromAddress),
 			db.Transaction.Currency.Set(data.Currency),
+			db.Transaction.UserID.Set(0),
 		).Exec(ctx)
 
+		insertTransactionHistory := t.db.TransactionHistory.CreateOne()
 	}
 
 	return nil
