@@ -1,0 +1,83 @@
+datasource db {
+  // could be postgresql or mysql
+  provider = "postgresql"
+  url      = "postgres://postgres.fxselsmgvmysikytlrae:C9NCSN8bhztwFbmf@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres"
+}
+
+generator db {
+  provider = "go run github.com/steebchen/prisma-client-go"
+}
+
+model User {
+  id                Int   @id @default(autoincrement())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  username          String
+  supabaseId        String @default("")
+  UserPaymentTypes  UserPaymentTypes[]
+  Deposit           Deposit[]
+  Transaction       Transaction[]
+  WithDraw          WithDraw[]
+}
+
+
+model MasterPaymentType {
+  id                Int   @id @default(autoincrement())
+  name              String
+  userPaymentTypes  UserPaymentTypes[]
+}
+
+model UserPaymentTypes {
+  id                      Int                @id @default(autoincrement())
+  user                    User               @relation(fields: [userId], references: [id])
+  userId                  Int
+  masterPaymentType       MasterPaymentType  @relation(fields: [masterPaymentTypeId], references: [id])
+  masterPaymentTypeId     Int
+}
+
+model Transaction {
+    id                     Int                @id @default(autoincrement())
+    user                   User               @relation(fields: [userId], references: [id])
+    userId                Int
+    toAddress              String
+    fromAddress           String
+    currency              String
+    TransactionHistory    TransactionHistory[]
+}
+
+
+model TransactionHistory {
+  id                Int   @id @default(autoincrement())
+  transaction       Transaction @relation(fields: [transactionId], references: [id])
+  transactionId     Int
+  status            String
+}
+
+model Deposit {
+  id        Int                @id @default(autoincrement())
+  user      User               @relation(fields: [userId], references: [id])
+  userId    Int
+  amount    Int
+  WithDraw WithDraw[]
+  DepositTransaction DepositTransaction[]
+}
+
+model WithDraw {
+    id        Int                @id @default(autoincrement())
+    charge  Int
+    user      User               @relation(fields: [userId], references: [id])
+    userId    Int
+    deposit   Deposit               @relation(fields: [depositId], references: [id])
+    depositId    Int
+}
+
+model DepositTransaction {
+     id        Int                @id @default(autoincrement())
+     amount    Int
+     deposit   Deposit               @relation(fields: [depositId], references: [id])
+    depositId    Int
+}
+
+
+
+

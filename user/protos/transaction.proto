@@ -1,0 +1,23 @@
+syntax = "proto3";
+package protos;
+
+option go_package = "transaction/";
+
+message GetUserResponse {
+    string id = 1;
+    string name = 2;
+    string role = 3;
+}
+
+message CheckTokenResponse {
+    bool is_available = 1;
+}
+
+message GetUserRequest {
+    string token = 1;
+}
+
+service Transaction {
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
+    rpc CheckToken(GetUserRequest) returns (CheckTokenResponse);
+}
