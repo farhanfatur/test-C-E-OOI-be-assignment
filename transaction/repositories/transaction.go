@@ -26,14 +26,14 @@ func (t *TransactionRepository) Send(data domains.TransactionRequest) error {
 	).Exec(ctx)
 
 	if findTransaction.ID == 0 {
-		insertTransaction, _ := t.db.Transaction.CreateOne(
-			db.Transaction.Amount.Set(data.Amount),
-			db.Transaction.ToAddress.Set(data.ToAddress),
-			db.Transaction.Currency.Set(data.Currency),
-			db.Transaction.UserID.Set(0),
-		).Exec(ctx)
+		// insertTransaction, _ := t.db.Transaction.CreateOne(
+		// 	db.Transaction.Amount.Set(data.Amount),
+		// 	db.Transaction.ToAddress.Set(data.ToAddress),
+		// 	db.Transaction.Currency.Set(data.Currency),
+		// 	db.Transaction.UserID.Set(0),
+		// ).Exec(ctx)
 
-		insertTransactionHistory := t.db.TransactionHistory.CreateOne()
+		// insertTransactionHistory := t.db.TransactionHistory.CreateOne()
 	}
 
 	return nil
